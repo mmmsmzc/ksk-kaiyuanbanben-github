@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="icon" href="img/logo.png">
+	<link rel="stylesheet" href="css/index.css">
+	<title>Minecraft 看啥看 Java版官方网站</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!-- <script src="https://cdn.staticfile.net/vue/2.2.2/vue.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.staticfile.net/jquery/1.10.2/jquery.min.js"></script> -->
+	<script>
+		var x001 = false;
+		var x23424 = true;
+		var z4545 = setInterval(function () {
+			if (x23424) {
+				document.getElementById('loading1').style.color = "rgba(0, 0, 0, 0)";
+				x23424 = !x23424;
+			} else {
+				document.getElementById('loading1').style.color = "rgba(0, 0, 0, 1)";
+				x23424 = !x23424;
+			}
+		}, 1000);
+		function showwy() {
+			clearInterval(z4545);
+			var loading1 = document.getElementById('loading1');
+			var loading = document.getElementById('loading');
+			loading1.style.color = "rgba(0, 0, 0, 0)";
+			loading.style.backgroundColor = "rgba(255, 255, 255, 0)";
+			setTimeout(function () {
+				document.getElementById('loading1').remove();
+				document.getElementById('loading').remove();
+				x001 = true;
+			}, 1000);
+		}
+		// 监听window的load事件 undefined
+		let executed = false;
+
+		window.addEventListener('DOMContentLoaded', () => {
+			if (!executed) {
+				showwy();
+				executed = true;
+			}
+		});
+
+		setTimeout(() => {
+			if (!executed) {
+				showwy();
+				executed = true;
+			}
+		}, 10000);
+	</script>
+</head>
+
+<body>
+	<div class="container" id="loading">
+		<div class="loader" id="loading1">请稍等...</div>
+	</div>
+	<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- <script src="https://cdn.staticfile.net/vue/2.2.2/vue.min.js"></script>
+	<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script> -->
+	<!-- <script src="js/jquery.min.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/vue.min.js"></script> -->
+
+	<script src="js/autombpc.js"></script>
+
+	<div class="bj">
+		<div id="darkbg">
+			<div class="tips"></div>
+			<div class="title_bar">
+				<div class="logo shadow">
+			<img src="img/logo.png" alt="看啥看" style="width: 100%; height: 100%; object-fit: contain;">
+		</div>
+				<div id="timeshow" class="shadow">
+					<div id="time">14:00:00</div>
+				</div>
+				<div class="button3 shadow themeset">
+					<svg t="1715869464572" class="icon" viewBox="0 0 1024 1024" version="1.1"
+						xmlns="http://www.w3.org/2000/svg" p-id="2929" xmlns:xlink="http://www.w3.org/1999/xlink"
+						width="30" height="30">
+						<path
+							d="M512 938.666667c235.648 0 426.666667-191.018667 426.666667-426.666667S747.648 85.333333 512 85.333333 85.333333 276.352 85.333333 512s191.018667 426.666667 426.666667 426.666667z m0-64v-725.333334a362.666667 362.666667 0 0 1 0 725.333334z"
+							fill="#515151" p-id="2930"></path>
+					</svg>
+					<div class="theme shadow">
+						<div class="t0">自动切换</div>
+						<div class="t1">浅色主题</div>
+						<div class="t2">暗色主题</div>
+					</div>
+				</div>
+				<div class="button3 shadow concise">
+					<svg t="1716192469036" class="icon" viewBox="0 0 1024 1024" version="1.1"
+						xmlns="http://www.w3.org/2000/svg" p-id="3695" width="30" height="35">
+						<path
+							d="M512.059863 128.200824c-247.02407 0-447.455985 286.674115-447.455985 297.422923 0 10.06524 200.430892 296.739355 447.455985 296.739355 247.661589 0 444.930465-299.42758 448.089411-296.739355C963.431018 427.620217 759.722476 128.200824 512.059863 128.200824L512.059863 128.200824zM887.121028 425.600211c-2.670829-2.490727-165.422564 233.341443-375.040698 233.341443-239.940744 0-374.508579-233.341443-374.508579-233.341443s165.434843-233.979986 374.508579-233.979986C721.697441 191.620225 889.898281 427.438069 887.121028 425.600211L887.121028 425.600211zM510.116605 309.400722c-59.101049 0-106.875123 49.619094-106.875123 111.343901 0 61.363579 47.775096 111.347994 106.875123 111.347994 59.448974 0 107.225093-49.984415 107.225093-111.347994C617.341698 359.019817 569.565579 309.400722 510.116605 309.400722L510.116605 309.400722zM510.116605 309.400722"
+							fill="#272636" p-id="3696"></path>
+					</svg>
+				</div>
+				<div class="button3 shadow music">
+					<svg t="1731937243807" class="icon" viewBox="0 0 1024 1024" version="1.1"
+						xmlns="http://www.w3.org/2000/svg" p-id="3695" width="30" height="35">
+						<path
+							d="M704 844.586667a384 384 0 1 1-98.773333-704l-131.2 75.733333A293.12 293.12 0 0 0 362.666667 253.44 298.666667 298.666667 0 1 0 770.56 362.666667a294.826667 294.826667 0 0 0-98.56-102.4l55.04-65.92A384 384 0 0 1 704 844.586667zM641.28 544a149.333333 149.333333 0 1 1-141.226667-74.666667l-92.586666-159.786666 73.813333-42.666667L721.92 128 533.333333 355.2z m-73.813333 42.666667A64 64 0 0 0 512 554.666667a62.293333 62.293333 0 0 0-31.786667 8.533333A64 64 0 0 0 512 682.666667a62.506667 62.506667 0 0 0 31.786667-8.746667 64 64 0 0 0 23.466666-87.253333z"
+							fill="#272636" p-id="3696"></path>
+					</svg>
+				</div>
+			</div>
+			<div class="mian">
+				<div class="box1">
+					<img class="shadow" src="img/logo.png" alt="看啥看服务器Logo">
+					<div id="players_num" class="shadow">
+						<span class="value1" id="players_online">0</span>
+						<span class="gwjzx"> 个玩家在线</span>
+					</div>
+					<div class="button1 shadow jiaruyouxi">加入游戏</div>
+					<div class="box1_1 shadow">
+						<svg t="1715592761628" class="icon qyz" viewBox="0 0 1024 1024" version="1.1"
+							xmlns="http://www.w3.org/2000/svg" p-id="3638" xmlns:xlink="http://www.w3.org/1999/xlink"
+							width="25" height="25">
+							<path
+								d="M652.501333 149.034667l60.330667 60.330666-301.696 301.696 301.696 301.696-60.330667 60.352L320.64 541.226667l30.165333-30.186667-30.165333 30.186667-30.186667-30.186667 362.026667-362.026667z"
+								p-id="3639" fill="#515151"></path>
+						</svg>
+						<svg t="1715592848252" class="icon xz" viewBox="0 0 1024 1024" version="1.1"
+							xmlns="http://www.w3.org/2000/svg" p-id="1918" xmlns:xlink="http://www.w3.org/1999/xlink"
+							width="25" height="25">
+							<path
+								d="M469.333333 561.344V106.666667h85.333334v454.72l120.704-120.704 60.330666 60.330666-223.68 223.701334-223.68-223.701334 60.330667-60.330666L469.333333 561.344zM213.333333 832v-85.333333H128v170.666666h768v-170.666666h-85.333333v85.333333H213.333333z"
+								p-id="1919" fill="#515151"></path>
+						</svg>
+						<svg t="1715592816095" class="icon hyz" viewBox="0 0 1024 1024" version="1.1"
+							xmlns="http://www.w3.org/2000/svg" p-id="1486" xmlns:xlink="http://www.w3.org/1999/xlink"
+							width="25" height="25">
+							<path
+								d="M371.498667 873.109333l-60.330667-60.330666 301.696-301.717334L311.168 209.365333l60.330667-60.330666L703.36 480.896l-30.165333 30.165333 30.165333-30.165333 30.186667 30.165333-362.026667 362.026667z"
+								p-id="1487" fill="#515151"></path>
+						</svg>
+					</div>
+				</div>
+
+				<div class="box2">
+					<div id="showip" class="shadow">IP：x33.minekuai.com &nbsp &nbsp &nbsp 端口：35175</div>
+				</div>
+
+				<div class="box3">
+					<div class="scroll_bar shadow">
+						<div class="app">
+							<div class="button2 shadow liaotian">聊天</div>
+							<!-- <div class="button2 shadow xzapp">APP</div>
+							<div class="button2 shadow zhuangtai">状态</div> -->
+							<div class="button2 shadow download">下载</div>
+							<div class="button2 shadow pindao">频道</div>
+							<div class="button2 shadow fankui">反馈</div>
+							<div class="button2 shadow zangzhu">赞助</div>
+							<div class="button2 shadow qqqun">QQ群</div>
+							<div class="button2 shadow xieguan">协管</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="masking">
+				<div class="popup shadow">
+					<svg t="1716201635617" class="icon" viewBox="0 0 1024 1024" version="1.1"
+						xmlns="http://www.w3.org/2000/svg" p-id="2781" width="30" height="30">
+						<path
+							d="M1022.583467 127.803733 894.779733 0 511.291733 383.4624 127.8464 0 0 127.803733 383.496533 511.274667 0 894.737067 127.8464 1022.5408 511.291733 639.0784 894.779733 1022.5408 1022.583467 894.737067 639.138133 511.274667Z"
+							fill="#272636" p-id="2782"></path>
+					</svg>
+
+					<div id="fwqcx">
+						<div class="zt shadow">
+							<h3>看啥看游戏：</h3>
+							<div id="server_status" style="color: red; font-size: 50px;">离线</div>
+							<div id="server_motd" class="motd"></div>
+							<div id="server_players">在线玩家数：0/0</div>
+							<div id="server_version">最高游戏版本：</div>
+						</div>
+						<div class="zt shadow">
+							<h3>看啥看生存：</h3>
+							<div id="server_status2" style="color: red; font-size: 50px;">离线</div>
+							<div id="server_motd2" class="motd"></div>
+							<div id="server_players2">在线玩家数：0/0</div>
+							<div id="server_version2">最高游戏版本：</div>
+						</div>
+						<!-- <div class="button2 shadow">刷新</div> -->
+					</div>
+
+					<div class="zzb">
+						<h2>感谢以下大佬的赞助！</h2>
+						<ol style="color: gold;" id="dataList">
+							<li class="sponsor-item">
+								<span class="sponsor-name">赞助商名称</span>
+								<span class="sponsor-amount">0</span> RMB
+							</li>
+						</ol>
+						<h2>若你也愿意支持，请扫描下面二维码（左边微信，右边支付宝）&nbsp &nbsp赞助完成后请联系服主，让你榜上有名~</h2>
+						<img src="img/wxzf.jpg" alt="加载失败">
+						<img src="img/zfbzf.jpg" alt="加载失败">
+					</div>
+					<div class="useiframe">
+						<iframe src="loading.html" width="1080px" height="645px" frameborder="on"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bottom"></div>
+	
+	<script src="js/autombpc.js"></script>
+	<script src="js/clickevent.js"></script>
+	<script src="js/getonline3.js"></script>
+	<script src="js/autosetcss.js" class="autosetcss"></script>
+	<script src="js/music.js"></script>
+	<script src="js/setbg.js"></script>
+	<script src="js/message.js"></script>
+	<script src="js/sponsor.js"></script>
+	<script src="js/time.js"></script>
+</body>
+</html>

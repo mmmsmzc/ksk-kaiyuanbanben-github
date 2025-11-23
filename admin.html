@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务器官网 - 后台管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s ease;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        
+        .login-button:hover {
+            opacity: 0.9;
+        }
+        
+        .login-button:active {
+            transform: scale(0.98);
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <button id="back-button" style="background: #f8f9fa; color: #666; border: 1px solid #dee2e6; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s ease;">
+                返回首页
+            </button>
+        </div>
+        <div class="login-header">
+            <h1>后台管理</h1>
+            <p>请输入密码以访问管理面板</p>
+        </div>
+        
+        <div id="error-message" class="error-message">密码错误，请重试</div>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" placeholder="请输入密码" required>
+            </div>
+            
+            <button type="submit" class="login-button">登录</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const passwordInput = document.getElementById('password');
+            const password = passwordInput.value;
+            const errorMessage = document.getElementById('error-message');
+            const loginButton = this.querySelector('button[type="submit"]');
+            
+            // 清空之前的错误信息
+            errorMessage.style.display = 'none';
+            
+            // 禁用按钮防止重复提交
+            loginButton.disabled = true;
+            loginButton.textContent = '登录中...';
+            
+            // 验证密码
+            if (password === 'kskfwq') {
+                // 密码正确，设置登录状态和token
+                localStorage.setItem('admin_logged_in', 'true');
+                localStorage.setItem('admin_token', 'kskfwq_admin_token');
+                
+                // 模拟成功延迟
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 500);
+            } else {
+                // 密码错误，显示错误信息
+                errorMessage.textContent = '密码错误，请重试';
+                errorMessage.style.display = 'block';
+                
+                // 清空密码输入框
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                // 恢复按钮状态
+                loginButton.disabled = false;
+                loginButton.textContent = '登录';
+                
+                // 3秒后自动隐藏错误信息
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+        
+        // 添加键盘事件监听，按下Enter键可以提交表单
+        document.getElementById('password').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                document.getElementById('login-form').dispatchEvent(new Event('submit'));
+            }
+        });
+        
+        // 返回首页功能
+        document.getElementById('back-button').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+        
+        // 页面加载时自动聚焦到密码输入框
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('password').focus();
+        });
+    </script>
+</body>
+</html>

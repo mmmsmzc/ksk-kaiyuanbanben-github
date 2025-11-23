@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务器官网 - 管理仪表盘</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logout-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card-header {
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .card-header h2 {
+            color: #333;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .current-logo {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .current-logo h3 {
+            color: #666;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .logo-preview {
+            width: 200px;
+            height: 120px;
+            border: 2px dashed #e1e5e9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #f8f9fa;
+        }
+        
+        .logo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .upload-section {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .upload-label {
+            display: block;
+            padding: 20px;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #f8f9ff;
+            margin-bottom: 20px;
+        }
+        
+        .upload-label:hover {
+            background-color: #f0f2ff;
+            border-color: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .upload-label i {
+            font-size: 36px;
+            color: #667eea;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .upload-label p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .upload-label small {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        #logo-upload {
+            display: none;
+        }
+        
+        .upload-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        
+        .upload-button:hover {
+            opacity: 0.9;
+        }
+        
+        .upload-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+        
+        .notification.success {
+            background-color: #28a745;
+        }
+        
+        .notification.error {
+            background-color: #dc3545;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .container {
+                margin: 20px auto;
+            }
+            
+            .dashboard-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <button id="back-button" class="logout-button">返回首页</button>
+            <h1>服务器官网管理仪表盘</h1>
+        </div>
+        <button id="logout-button" class="logout-button">退出登录</button>
+    </div>
+    
+    <div class="container">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>网站Logo管理</h2>
+            </div>
+            
+            <div class="logo-section">
+                <div class="current-logo">
+                    <h3>当前Logo</h3>
+                    <div class="logo-preview">
+                        <img id="current-logo-img" src="img/logo.png" alt="当前Logo">
+                    </div>
+                </div>
+                
+                <div class="upload-section">
+                    <label for="logo-upload" class="upload-label">
+                        <i>📁</i>
+                        <p>点击或拖拽文件到此处上传</p>
+                        <small>支持 PNG 格式，建议尺寸: 200 x 120px</small>
+                    </label>
+                    <input type="file" id="logo-upload" accept=".png">
+                    <button id="update-logo-button" class="upload-button" disabled>更新Logo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script>
+        // 检查登录状态
+        function checkLoginStatus() {
+            const loggedIn = localStorage.getItem('admin_logged_in');
+            const token = localStorage.getItem('admin_token');
+            
+            // 验证登录状态和token
+            if (!loggedIn || token !== 'kskfwq_admin_token') {
+                // 清除可能存在的无效登录信息
+                localStorage.removeItem('admin_logged_in');
+                localStorage.removeItem('admin_token');
+                // 重定向到登录页面
+                window.location.href = 'admin.html';
+            }
+        }
+        
+        // 显示通知
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            
+            // 显示通知
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // 3秒后隐藏通知
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            
+            const logoUpload = document.getElementById('logo-upload');
+            const updateLogoButton = document.getElementById('update-logo-button');
+            const logoutButton = document.getElementById('logout-button');
+            const backButton = document.getElementById('back-button');
+            const currentLogoImg = document.getElementById('current-logo-img');
+            
+            // 监听文件选择
+            logoUpload.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    // 验证文件类型
+                    if (file.type !== 'image/png') {
+                        showNotification('请上传PNG格式的图片', 'error');
+                        this.value = '';
+                        updateLogoButton.disabled = true;
+                        return;
+                    }
+                    
+                    // 验证文件大小（限制为2MB）
+                    if (file.size > 2 * 1024 * 1024) {
+                        showNotification('文件大小不能超过2MB', 'error');
+                        this.value = '';
+                        updateLogoButton.disabled = true;
+                        return;
+                    }
+                    
+                    // 启用更新按钮
+                    updateLogoButton.disabled = false;
+                    
+                    // 显示预览
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            currentLogoImg.src = e.target.result;
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    updateLogoButton.disabled = true;
+                }
+            });
+            
+            // 处理Logo更新
+            updateLogoButton.addEventListener('click', function() {
+                const file = logoUpload.files[0];
+                if (file) {
+                    // 创建FormData对象
+                    const formData = new FormData();
+                    formData.append('logo', file);
+                    
+                    // 禁用按钮防止重复提交
+                    updateLogoButton.disabled = true;
+                    updateLogoButton.textContent = '上传中...';
+                    
+                    // 发送AJAX请求到服务器，添加授权token
+                    fetch('update-logo.php', {
+                        method: 'POST',
+                        headers: {
+                            'Auth-Token': 'kskfwq_admin_token'
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('服务器响应错误');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            // 更新成功，刷新预览
+                            currentLogoImg.src = 'img/logo.png?' + new Date().getTime();
+                            showNotification('Logo更新成功', 'success');
+                        } else {
+                            // 更新失败，显示错误信息
+                            showNotification('Logo更新失败: ' + data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        // 捕获网络错误
+                        console.error('上传错误:', error);
+                        showNotification('上传出错，请重试', 'error');
+                    })
+                    .finally(() => {
+                        // 无论成功失败，重置上传控件
+                        logoUpload.value = '';
+                        updateLogoButton.textContent = '更新Logo';
+                    });
+                }
+            });
+            
+            // 返回首页
+            backButton.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            
+            // 退出登录
+            logoutButton.addEventListener('click', function() {
+                // 清除所有登录相关信息
+                localStorage.removeItem('admin_logged_in');
+                localStorage.removeItem('admin_token');
+                // 重定向到登录页面
+                window.location.href = 'admin.html';
+            });
+            
+            // 添加拖拽上传功能
+            const uploadLabel = document.querySelector('.upload-label');
+            
+            uploadLabel.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#764ba2';
+                this.style.backgroundColor = '#eef1ff';
+            });
+            
+            uploadLabel.addEventListener('dragleave', function() {
+                this.style.borderColor = '#667eea';
+                this.style.backgroundColor = '#f8f9ff';
+            });
+            
+            uploadLabel.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#667eea';
+                this.style.backgroundColor = '#f8f9ff';
+                
+                if (e.dataTransfer.files.length) {
+                    logoUpload.files = e.dataTransfer.files;
+                    // 触发change事件
+                    const event = new Event('change');
+                    logoUpload.dispatchEvent(event);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

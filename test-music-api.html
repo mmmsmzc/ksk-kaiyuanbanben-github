@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内置音乐播放器测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #4285f4;
+            font-size: 18px;
+        }
+        button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #3367d6;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+        .results {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        .music-list {
+            list-style: none;
+            padding: 0;
+        }
+        .music-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .music-item:hover {
+            background-color: #f0f0f0;
+        }
+        .audio-player {
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>内置音乐播放器测试</h1>
+        
+        <div class="test-section">
+            <h2>加载音乐列表</h2>
+            <button onclick="loadMusicList()">加载音乐列表</button>
+            <div class="results" id="musicListResults">结果将显示在这里</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>搜索歌曲</h2>
+            <input type="text" id="searchKeyword" placeholder="输入歌曲名称或歌手" value="晴天">
+            <button onclick="testSearch()">测试搜索</button>
+            <div class="results" id="searchResults">结果将显示在这里</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>播放歌曲</h2>
+            <select id="songSelect" style="width: 300px; padding: 8px; margin: 5px 0;">
+                <option value="">请先加载音乐列表</option>
+            </select>
+            <button onclick="playSelectedSong()">播放选中歌曲</button>
+            <div class="results" id="playResults">结果将显示在这里</div>
+            <audio id="audioPlayer" class="audio-player" controls>
+                您的浏览器不支持音频元素。
+            </audio>
+        </div>
+        
+        <div class="test-section">
+            <h2>检查音乐文件路径</h2>
+            <button onclick="checkMusicPath()">检查路径</button>
+            <div class="results" id="pathResults">结果将显示在这里</div>
+        </div>
+    </div>
+
+    <script>
+        // 音乐文件基础路径
+        const MUSIC_BASE_PATH = 'music/';
+        let musicList = [];
+        
+        // 显示结果
+        function showResults(elementId, data, success = true) {
+            const element = document.getElementById(elementId);
+            element.className = success ? 'results success' : 'results error';
+            
+            if (typeof data === 'string') {
+                element.textContent = data;
+            } else {
+                element.textContent = JSON.stringify(data, null, 2);
+            }
+        }
+        
+        // 加载音乐列表
+        async function loadMusicList() {
+            try {
+                const response = await fetch(`${MUSIC_BASE_PATH}music-list.json`);
+                if (!response.ok) {
+                    throw new Error(`加载失败: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                musicList = data.playlists[0].songs || [];
+                showResults('musicListResults', {
+                    message: '音乐列表加载成功',
+                    count: musicList.length,
+                    songs: musicList
+                });
+                
+                // 更新歌曲选择下拉框
+                updateSongSelect();
+            } catch (error) {
+                showResults('musicListResults', `加载失败: ${error.message}`, false);
+            }
+        }
+        
+        // 更新歌曲选择下拉框
+        function updateSongSelect() {
+            const select = document.getElementById('songSelect');
+            select.innerHTML = '<option value="">请选择歌曲</option>';
+            
+            musicList.forEach((song, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${song.name} - ${song.artist}`;
+                select.appendChild(option);
+            });
+        }
+        
+        // 测试搜索
+        function testSearch() {
+            const keyword = document.getElementById('searchKeyword').value;
+            if (!keyword) {
+                alert('请输入搜索关键词');
+                return;
+            }
+            
+            // 本地搜索逻辑
+            const results = musicList.filter(song => 
+                song.name.toLowerCase().includes(keyword.toLowerCase()) ||
+                song.artist.toLowerCase().includes(keyword.toLowerCase()) ||
+                song.album.toLowerCase().includes(keyword.toLowerCase())
+            );
+            
+            showResults('searchResults', {
+                keyword: keyword,
+                resultsCount: results.length,
+                results: results
+            });
+        }
+        
+        // 播放选中的歌曲
+        function playSelectedSong() {
+            const select = document.getElementById('songSelect');
+            const index = parseInt(select.value);
+            
+            if (isNaN(index) || index < 0 || index >= musicList.length) {
+                showResults('playResults', '请选择有效的歌曲', false);
+                return;
+            }
+            
+            const song = musicList[index];
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.src = MUSIC_BASE_PATH + song.file;
+            
+            showResults('playResults', {
+                message: '开始播放',
+                song: song,
+                src: audioPlayer.src
+            });
+            
+            audioPlayer.play().catch(error => {
+                showResults('playResults', `播放失败: ${error.message}`, false);
+            });
+        }
+        
+        // 检查音乐文件路径
+        async function checkMusicPath() {
+            try {
+                // 检查music-list.json文件是否存在
+                const listResponse = await fetch(`${MUSIC_BASE_PATH}music-list.json`);
+                const listExists = listResponse.ok;
+                
+                // 检查第一首歌曲文件是否可访问
+                let songExists = false;
+                let songError = '';
+                
+                if (musicList.length > 0) {
+                    try {
+                        const songResponse = await fetch(`${MUSIC_BASE_PATH}${musicList[0].file}`, {
+                            method: 'HEAD'
+                        });
+                        songExists = songResponse.ok;
+                    } catch (error) {
+                        songError = error.message;
+                    }
+                }
+                
+                showResults('pathResults', {
+                    musicListExists: listExists,
+                    firstSongExists: songExists,
+                    songError: songError,
+                    musicBasePath: MUSIC_BASE_PATH,
+                    songCount: musicList.length
+                });
+            } catch (error) {
+                showResults('pathResults', `检查失败: ${error.message}`, false);
+            }
+        }
+        
+        // 页面加载时自动加载音乐列表
+        window.onload = loadMusicList;
+    </script>
+</body>
+</html>

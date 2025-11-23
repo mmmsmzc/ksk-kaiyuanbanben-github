@@ -1,0 +1,51 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- M letter - Left vertical -->
+  <rect x="100" y="100" width="80" height="400" fill="#FF6B6B"/>
+  <rect x="100" y="100" width="80" height="80" fill="#FF8E53"/>
+  <rect x="100" y="180" width="80" height="80" fill="#F9D423"/>
+  <rect x="100" y="260" width="80" height="80" fill="#7DE2D1"/>
+  <rect x="100" y="340" width="80" height="80" fill="#3D56B2"/>
+  <rect x="100" y="420" width="80" height="80" fill="#5B86E5"/>
+  
+  <!-- M letter - Right vertical -->
+  <rect x="260" y="100" width="80" height="400" fill="#9B59B6"/>
+  <rect x="260" y="100" width="80" height="80" fill="#8E44AD"/>
+  <rect x="260" y="180" width="80" height="80" fill="#9B59B6"/>
+  <rect x="260" y="260" width="80" height="80" fill="#3498DB"/>
+  <rect x="260" y="340" width="80" height="80" fill="#2ECC71"/>
+  <rect x="260" y="420" width="80" height="80" fill="#1ABC9C"/>
+  
+  <!-- M letter - Diagonals -->
+  <rect x="180" y="100" width="80" height="80" fill="#E74C3C"/>
+  <rect x="180" y="180" width="80" height="80" fill="#C0392B"/>
+  <rect x="180" y="260" width="80" height="80" fill="#8E44AD"/>
+  <rect x="180" y="340" width="80" height="80" fill="#3498DB"/>
+  <rect x="180" y="420" width="80" height="80" fill="#2ECC71"/>
+  
+  <!-- C letter - Top horizontal -->
+  <rect x="400" y="100" width="240" height="80" fill="#A29BFE"/>
+  <rect x="400" y="100" width="80" height="80" fill="#6C5CE7"/>
+  <rect x="480" y="100" width="80" height="80" fill="#00CEC9"/>
+  <rect x="560" y="100" width="80" height="80" fill="#00B894"/>
+  <rect x="640" y="100" width="80" height="80" fill="#0097A7"/>
+  
+  <!-- C letter - Middle vertical -->
+  <rect x="400" y="180" width="80" height="240" fill="#74B9FF"/>
+  <rect x="640" y="180" width="80" height="240" fill="#000000"/>
+  <rect x="480" y="180" width="80" height="80" fill="#0984E3"/>
+  <rect x="560" y="180" width="80" height="80" fill="#74B9FF"/>
+  
+  <!-- C letter - Bottom horizontal -->
+  <rect x="400" y="340" width="240" height="80" fill="#FD79A8"/>
+  <rect x="400" y="420" width="240" height="80" fill="#FD79A8"/>
+  <rect x="480" y="340" width="80" height="80" fill="#E84393"/>
+  <rect x="560" y="340" width="80" height="80" fill="#B2BEC3"/>
+  <rect x="480" y="420" width="80" height="80" fill="#636E72"/>
+  <rect x="560" y="420" width="80" height="80" fill="#2D3436"/>
+  
+  <!-- Add some star highlights -->
+  <rect x="140" y="140" width="20" height="20" fill="#FFFFFF" opacity="0.7"/>
+  <rect x="280" y="280" width="20" height="20" fill="#FFFFFF" opacity="0.7"/>
+  <rect x="440" y="140" width="20" height="20" fill="#FFFFFF" opacity="0.7"/>
+  <rect x="580" y="380" width="20" height="20" fill="#FFFFFF" opacity="0.7"/>
+</svg>
